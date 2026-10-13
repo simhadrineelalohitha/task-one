@@ -6,7 +6,12 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const database = require('./database-serverless');
 let db;
-const requireAuth = require('../../middleware/auth');
+
+// Auth middleware
+const requireAuth = function(req, res, next) {
+  if (!req.session.user) return res.status(401).json({ error: 'Please sign in to continue.' });
+  next();
+};
 
 const app = express();
 
