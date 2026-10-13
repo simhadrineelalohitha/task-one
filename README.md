@@ -68,3 +68,31 @@ The sample catalog uses remote Unsplash images with a fallback image. An interne
 ## Deployment notes
 
 Deploy to a Node.js host that supports persistent disk storage. Set `NODE_ENV=production`, `SESSION_SECRET` to a private random value, and `DATABASE_FILE` to a persistent writable path. Run `npm install --omit=dev` and `npm start`. Terminate HTTPS at the host or proxy so secure session cookies work. The default in-memory Express session store is intended for a student demo and single-process local use; use a persistent session store and configure SQLite backups before deploying for multiple workers or real customers. This is a demo checkout and is not a payment system.
+
+## Deploy to Netlify
+
+This app is configured to deploy to Netlify as a serverless function:
+
+1. **Connect your GitHub repository:**
+   - Go to [Netlify](https://app.netlify.com)
+   - Click "Add new site" → "Import an existing project"
+   - Choose GitHub and select your `task-one` repository
+   - Authorize Netlify to access your repository
+
+2. **Configure the deployment:**
+   - **Site name:** Choose a custom name or use the auto-generated one
+   - **Build command:** `npm install` (Netlify will use this automatically)
+   - **Publish directory:** `public`
+   - The `netlify.toml` file in the repository handles all other configuration
+
+3. **Set environment variables:**
+   - In Netlify dashboard, go to **Site configuration** → **Environment variables**
+   - Add: `SESSION_SECRET` with a secure random string (generate one at https://randomkeygen.com/)
+   - Add: `NODE_ENV` with value `production`
+
+4. **Deploy:**
+   - Click "Deploy site"
+   - Wait for the build to complete
+   - Your site will be live at `https://your-site-name.netlify.app`
+
+**Note:** Netlify's free tier uses ephemeral storage, so the SQLite database will reset with each deployment. For a persistent database, consider upgrading to Netlify's persistent storage or use a cloud database service.
