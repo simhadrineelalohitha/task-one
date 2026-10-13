@@ -4,7 +4,7 @@ const session = require('express-session');
 const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const database = require('../../database');
+const database = require('./database-serverless');
 let db;
 const requireAuth = require('../../middleware/auth');
 
